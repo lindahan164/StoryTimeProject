@@ -1,5 +1,5 @@
 #import modules
-
+import sqlite3
 from tkinter import *
 import os
 
@@ -36,6 +36,8 @@ def register():
 
 def login():
     global login_screen
+    with sqlite3.connect('users.db') as db:
+        c=db.cursur()
     login_screen = Toplevel(main_screen)
     login_screen.title("Login")
     login_screen.geometry("300x250")
