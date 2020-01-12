@@ -46,3 +46,29 @@ stories.cursor().execute(
 
 # print(conn.cursor().execute('SELECT * FROM users').fetchall())
 
+print(
+    users.cursor()
+    .execute("SELECT username, role, child, class FROM users")
+    .fetchall()
+)
+
+print(
+    images.cursor()
+    .execute("SELECT username ,images from images")
+    .fetchall()
+)
+
+print(
+    stories.cursor()
+    .execute("SELECT * from stories")
+    .fetchall()
+)
+
+
+# print(conn.cursor().execute('SELECT * FROM classes').fetchall())
+
+TEACHER = "teacher"
+PARENT = "parent"
+STUDENT = "student"
+
+imgs = {}
