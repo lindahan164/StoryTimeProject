@@ -238,6 +238,27 @@ imgs = {}
             child.configure(image=img)
             # child.image = img
 
+    def image_button(self, button_id, frame):
+        if len(self.images) >= 4:
+            return ms.showerror("כבר נבחר", "כבר נבחרו 4 קלפים")
+        button = list(frame.children.values())[button_id - 1]
+        button.grid_remove()
+        self.add_image(f"img{button_id}.jpeg")
+        print(self.images)
+        c = self.images_db.cursor()
+        update_users = "INSERT OR REPLACE INTO images (images, username) VALUES (?, ?)"
+        # update_classes = ('UPDATE classes SET images = ? WHERE name = ?')
+        user_params = [(" ".join(self.images)), (self.username.get())]
+        # class_params = [(' '.join(self.images)), (self.classname.get())]
+        c.execute(update_users, user_params)
+        # c.execute(update_classes, class_params)
+        self.images_db.commit()
+
+    def add_image(self, name: str):
+        if name not in self.images:
+            self.images.append(name)
+
+
 
 
 
