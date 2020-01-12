@@ -185,3 +185,13 @@ imgs = {}
         self.head["text"] = "יצירת משתמש"
         self.crf.pack()
 
+
+    def show_teacher_frame(self):
+        self.parents_suggestions.pack_forget()
+        self.logf.pack_forget()
+        self.lesson.pack_forget()
+        # self.head.pack_forget()
+        self.head["text"] = f"ברוכים הבאים למסך המורה {self.username.get()}"
+        self.teacher_frame.pack()
+     
+
