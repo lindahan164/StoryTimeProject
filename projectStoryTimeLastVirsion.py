@@ -205,6 +205,22 @@ imgs = {}
         for i in range(4):
             Label(self.student_frame, image=imgs[self.images[i]]).grid(row=0, column=i)
 
+    def show_parent_frame(self):
+        self.suggest.pack_forget()
+        self.head["text"] = "מסך הורה"
+        self.parent_frame.pack()
+
+    def suggest_to_teacher(self):
+        if self.student.get() == "None":
+            ms.showerror("תקלה", "לא הגדרת ילד")
+            return
+        c = self.users_db.cursor()
+        child_class = "SELECT class FROM users WHERE username = ?"
+        classname = c.execute(child_class, (self.student.get(),)).fetchone()
+        self.head["text"] = "הצע תמונות למורה של ילדך"
+        self.parent_frame.pack_forget()
+        self.suggest.pack()
+
 
 
 
