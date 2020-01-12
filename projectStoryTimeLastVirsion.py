@@ -361,3 +361,16 @@ imgs = {}
         ms.showinfo("הצלחה!", "ילדך נשמר במערכת")
 
         self.users_db.commit()
+
+    # setup parent child and class before showing interface
+    def setup_parent(self):
+        c = self.users_db.cursor()
+        username = self.username.get()
+        find_child = "SELECT child FROM users WHERE username = ?"
+        child_class = "SELECT class FROM users WHERE username = ?"
+        child = c.execute(find_child, (username,)).fetchone()
+        classname = c.execute(child_class, (child[0],)).fetchone()
+        print(child, classname)
+        self.student.set(child[0])
+        if classname:
+            self.classname.set(classname[0])
