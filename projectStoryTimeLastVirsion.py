@@ -342,4 +342,22 @@ imgs = {}
             self.add_image(img)
         print(self.images)
      
+    def set_child(self):
+        c = self.users_db.cursor()
+        find_user = "SELECT * FROM users WHERE username = ?"
+        student = self.student.get()
+        res = c.execute(find_user, [(student)]).fetchone()
+        print(res)
+        if not res:
+            return ms.showerror("טעות!", "ילד בשם זה לא קיים במערכת")
+        update_child = "UPDATE users SET child = ? WHERE username = ?"
+        c.execute(update_child, [(student), (self.username.get())])
 
+        child_class = "SELECT class FROM users WHERE username = ?"
+        classname = c.execute(child_class, (student,)).fetchone()
+        self.classname.set(classname)
+        update = "UPDATE users SET class = ? WHERE username = ?"
+        c.execute(update, [(classname[0]), (self.username.get())])
+        ms.showinfo("הצלחה!", "ילדך נשמר במערכת")
+
+        self.users_db.commit()
