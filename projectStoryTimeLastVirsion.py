@@ -18,9 +18,9 @@ stories = sqlite3.connect("stories.db")
 
 
 
-# users.cursor().execute("drop table users")
-# images.cursor().execute("drop table images")
-# stories.cursor().execute("drop table stories")
+#users.cursor().execute("drop table users")
+#images.cursor().execute("drop table images")
+#stories.cursor().execute("drop table stories")
 
 
 users.cursor().execute(
