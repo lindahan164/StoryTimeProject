@@ -72,3 +72,116 @@ PARENT = "parent"
 STUDENT = "student"
 
 imgs = {}
+
+
+
+
+# Login Function
+    def login(self):
+        # Establish Connection
+        # with sqlite3.connect('quit.db') as db:
+        c = self.users_db.cursor()
+        # Find user If there is any take proper action
+        find_user = "SELECT * FROM users WHERE username = ? and password = ?"
+        c.execute(find_user, [(self.username.get()), (self.password.get())])
+        result = c.fetchone()
+        if not result:
+            ms.showerror("אוי", "שם המשתמש או הסיסמא לא תקינים")
+            return
+        self.logf.pack_forget()
+        # self.head['text'] = f'Logged In As\n {self.username.get()}'
+        # self.head['pady'] = 150
+        username = result[0]
+        role: str = result[3].lower()
+        if role == TEACHER:
+            c.execute(
+                "SELECT class FROM users WHERE username=?", (self.username.get(),)
+            )
+            self.classname.set(c.fetchone()[0])
+            self.show_teacher_frame()
+        elif role == PARENT:
+            self.setup_parent()
+            self.show_parent_frame()
+            # show parents frame
+            pass
+        elif role == STUDENT:
+            c.execute(
+                "SELECT class FROM users WHERE username=?", (self.username.get(),)
+            )
+            self.classname.set(c.fetchone()[0])
+            self.show_student_frame()
+        else:
+            print(f"לא מכיר את התפקיד {username} - {role}")
+            return
+
+    def new_user(self):
+        # Establish Connection
+        users_cursor = self.users_db.cursor()
+        imagess_cursor = self.images_db.cursor()
+        stories_cursor = self.stories_db.cursor()
+
+        # Find Existing username if any take proper action
+        # find_user = "SELECT * FROM users WHERE username = ?"
+        # users_cursor.execute(find_user, [(self.username.get())])
+        # if users_cursor.fetchall():
+        #     ms.showerror("Error!", "Username Taken Try a Diffrent One.")
+        #     return
+
+        if self.n_role.get() not in [TEACHER, STUDENT, PARENT]:
+            ms.showerror(
+                "תקלה!",
+                f"התפקיד {self.n_role.get()} לא קיים",
+            )
+            return
+
+        # Create New Account
+        insert_users = "INSERT INTO users(username, password, age, role) VALUES(?,?,?,?)"
+        insert_images = "INSERT INTO images(username) VALUES(?)"
+        insert_stories = "INSERT INTO stories(username) VALUES(?)"
+        try:
+            users_cursor.execute(
+            insert_users,
+            [
+                (self.n_username.get()),
+                (self.n_password.get()),
+                self.n_age.get(),
+                self.n_role.get().lower(),
+            ],
+        )
+        except Exception:
+            return ms.showerror("!תקלה", "שם המשתמש קיים")
+        imagess_cursor.execute(
+            insert_images,
+            [
+                (self.n_username.get()),
+            ],
+        )
+        stories_cursor.execute(
+            insert_stories,
+            [
+                (self.n_username.get()),
+            ],
+        )
+        self.users_db.commit()
+        self.images_db.commit()
+        self.stories_db.commit()
+        ms.showinfo("בוצע", "המשתמש נוצר בהצלחה")
+        self.login_frame()
+
+    # Frame Packing Methords
+    def login_frame(self):
+        self.username.set("")
+        self.password.set("")
+        self.crf.pack_forget()
+        self.teacher_frame.pack_forget()
+        self.head["text"] = "התחברות"
+        self.logf.pack()
+
+    def create_acc_frame(self):
+        self.n_username.set("")
+        self.n_password.set("")
+        self.logf.pack_forget()
+        self.logf.pack_forget()
+        self.head["text"] = "יצירת משתמש"
+        self.crf.pack()
+
