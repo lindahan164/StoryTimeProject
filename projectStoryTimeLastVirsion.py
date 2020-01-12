@@ -74,6 +74,30 @@ STUDENT = "student"
 imgs = {}
 
 
+# main Class
+class main:
+    def __init__(self, master):
+        # Window
+        self.master = master
+        # Some Usefull variables
+        self.username = StringVar()
+        self.password = StringVar()
+        self.role = StringVar()
+        self.age = StringVar()
+        self.n_username = StringVar()
+        self.n_password = StringVar()
+        self.n_role = StringVar()
+        self.n_age = StringVar()
+        self.images = []
+        self.student = StringVar()
+        self.classname = StringVar()
+        self.story = StringVar()
+        self.parents = []  # We need a list, because we get the parents by index
+        self.users_db = users
+        self.images_db = images
+        self.stories_db = stories
+        # Create Widgets
+        self.widgets()
 
 
 # Login Function
