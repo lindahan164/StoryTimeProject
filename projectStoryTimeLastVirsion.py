@@ -423,3 +423,31 @@ imgs = {}
                 row=0, column=images.index(img)
             )
 
+    def student_report(self):
+        users_db = self.users_db.cursor()
+        stories_db = self.stories_db.cursor()
+
+        # we can use self.student.get(), but we prefer being accurate
+        (child,) = users_db.execute(
+            "SELECT child FROM users WHERE username=?", (self.username.get(),)
+        ).fetchone()
+        (stories_raw,) = stories_db.execute(
+            "SELECT story FROM stories WHERE username=?", (child,)
+        ).fetchone()
+        if not stories_raw:
+            ms.showerror("טעות", "לילדך אין סיפורים עדיין")
+            return
+
+        stories = stories_raw.split("|")  # stories are split with a '|'
+        try:
+            os.remove(f"{child}_report.docx")
+        except Exception:
+            pass
+        report = Document()
+        report.add_heading(f"{child}הסיפור של\n", 0)
+        for story in stories:
+            p = report.add_paragraph(f"סיפור מספר {stories.index(story) + 1}\n\n")
+            p.add_run(story + "\n\n\n").italic = True
+
+        report.save(f"{child}_report.docx")
+        os.system(f"start {child}_report.docx")
