@@ -319,6 +319,27 @@ imgs = {}
         ms.showinfo("הצלחה", f"הסיפור נשמר")
         self.story.set("")  # clear the story
      
+    def get_images_for_student(self):
+        users_cursor = self.users_db.cursor()
+        images_cursor = self.images_db.cursor()
+        find_user = "SELECT username FROM users WHERE class = ? AND role = ?"
+        usr_tuple = users_cursor.execute(
+            find_user, [(self.classname.get()), ("teacher")]
+        ).fetchone()
+        if not usr_tuple:
+            ms.showerror("טעות", "המורה שלך לא יצר כיתה עדיין!")
+            return -1
+        find_images = f"SELECT images FROM images WHERE username = '{usr_tuple[0]}'"
+        print(find_images)
+        images, = images_cursor.execute(find_images).fetchone()
+        if not images:
+            ms.showerror("טעות", "המורה לא הגדיר שיעור עדיין")
+            return -1
 
+        print(len(images))
+        
+        for img in images.split(" "):
+            self.add_image(img)
+        print(self.images)
      
 
