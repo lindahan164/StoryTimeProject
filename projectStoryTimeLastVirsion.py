@@ -451,3 +451,400 @@ imgs = {}
 
         report.save(f"{child}_report.docx")
         os.system(f"start {child}_report.docx")
+    
+    
+    # Draw Widgets
+    def widgets(self):
+        self.head = Label(self.master, text="התחברות", font=("", 35), pady=10)
+        self.head.pack()
+        self.logf = Frame(self.master, padx=10, pady=10)
+        Label(self.logf, text="שם משתמש: ", font=("", 20), pady=5, padx=5).grid(
+            sticky=W
+        )
+        Entry(self.logf, textvariable=self.username, bd=5, font=("", 15)).grid(
+            row=0, column=1
+        )
+        Label(self.logf, text="סיסמא: ", font=("", 20), pady=5, padx=5).grid(
+            sticky=W
+        )
+        Entry(
+            self.logf, textvariable=self.password, bd=5, font=("", 15), show="*"
+        ).grid(row=1, column=1)
+        Button(
+            self.logf,
+            text=" התחברות ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.login,
+        ).grid()
+        Button(
+            self.logf,
+            text=" יצירת משתמש ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.create_acc_frame,
+        ).grid(row=2, column=1)
+        self.logf.pack()
+
+        self.crf = Frame(self.master, padx=10, pady=10)
+        Label(self.crf, text="שם משתמש: ", font=("", 20), pady=10, padx=10).grid(
+            sticky=W
+        )
+        Entry(self.crf, textvariable=self.n_username, bd=5, font=("", 15)).grid(
+            row=0, column=1
+        )
+        Label(self.crf, text="סיסמא: ", font=("", 20), pady=5, padx=5).grid(sticky=W)
+        Entry(
+            self.crf, textvariable=self.n_password, bd=5, font=("", 15), show="*"
+        ).grid(row=1, column=1)
+        Label(self.crf, text="תפקיד: ", font=("", 20), pady=5, padx=5).grid(sticky=W)
+        Entry(self.crf, textvariable=self.n_role, bd=5, font=("", 15)).grid(
+            row=2, column=1
+        )
+        Label(self.crf, text="גיל: ", font=("", 20), pady=5, padx=5).grid(sticky=W)
+        Entry(self.crf, textvariable=self.n_age, bd=5, font=("", 15)).grid(
+            row=3, column=1
+        )
+        Button(
+            self.crf,
+            text=" יצירת משתמש ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.new_user,
+        ).grid()
+        Button(
+            self.crf,
+            text="חזור להתחברות ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.login_frame,
+        ).grid(row=4, column=1)
+
+        self.teacher_frame = Frame(self.master, padx=100, pady=100)
+        Label(
+            self.teacher_frame,
+            text="שם התלמיד",
+            font=("", 20),
+            pady=5,
+            padx=5,
+        ).grid(sticky=W)
+        Entry(self.teacher_frame, textvariable=self.student, bd=5, font=("", 15)).grid(
+            row=0, column=1
+        )
+        Button(
+            self.teacher_frame,
+            text="צרף תלמיד ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.add_student,
+        ).grid(row=0, column=2)
+
+        Label(
+            self.teacher_frame,
+            text=" שם הכיתה - ",
+            font=("", 20),
+            pady=5,
+            padx=5,
+        ).grid(sticky=W)
+        Entry(
+            self.teacher_frame, textvariable=self.classname, bd=5, font=("", 15)
+        ).grid(row=1, column=1)
+        Button(
+            self.teacher_frame,
+            text=" צור כיתה ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.create_class,
+        ).grid(row=1, column=2)
+
+        Button(
+            self.teacher_frame,
+            text=" צרף תלמיד ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.add_student,
+        ).grid(row=0, column=2)
+        Button(
+            self.teacher_frame,
+            text="התחל שיעור",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.start_lesson,
+        ).grid(row=2, column=0)
+        Button(
+            self.teacher_frame,
+            text="ראה את הצעת ההורים",
+            bd=3,
+            font=("", 15),
+            padx=0,
+            pady=0,
+            command=self.view_parent_seuggestions,
+        ).grid(row=3, column=0)
+        Button(
+            self.teacher_frame,
+            text="חזור להתחברות",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.login_frame,
+        ).grid(row=10, column=0)
+
+        self.lesson = Frame(self.master, padx=10, pady=10)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(1, self.lesson),
+        ).grid(row=0, column=1)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(2, self.lesson),
+        ).grid(row=0, column=2)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(3, self.lesson),
+        ).grid(row=0, column=3)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(4, self.lesson),
+        ).grid(row=0, column=4)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(5, self.lesson),
+        ).grid(row=1, column=1)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(6, self.lesson),
+        ).grid(row=1, column=2)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(7, self.lesson),
+        ).grid(row=1, column=3)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(8, self.lesson),
+        ).grid(row=1, column=4)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(9, self.lesson),
+        ).grid(row=2, column=1)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(10, self.lesson),
+        ).grid(row=2, column=2)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(11, self.lesson),
+        ).grid(row=2, column=3)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(12, self.lesson),
+        ).grid(row=2, column=4)
+        Button(
+            self.lesson,
+            padx=5,
+            pady=5,
+            font=("", 20),
+            command=self.show_teacher_frame,
+            text="חזור למסך המורה הראשי ",
+        ).grid(row=0, column=0)
+
+        self.student_frame = Frame(self.master, padx=100, pady=100)
+        Label(
+            self.student_frame, text=" התחל כתיבת סיפור ", font=("", 20), pady=5, padx=5
+        ).grid(row=1, sticky=W)
+        Entry(self.student_frame, textvariable=self.story, bd=5, font=("", 15)).grid(
+            row=1, column=1
+        )
+        # Text(self.student_frame, height=20, width=60).grid()
+        Button(
+            self.student_frame,
+            text=" הוסף סיפור ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.send_story,
+        ).grid(row=1, column=2)
+
+        self.parent_frame = Frame(self.master, padx=100, pady=100)
+        Label(
+            self.parent_frame, text="שם הילד -  ", font=("", 20), pady=5, padx=5
+        ).grid(row=1, sticky=W)
+        Entry(self.parent_frame, textvariable=self.student, bd=5, font=("", 15)).grid(
+            row=1, column=1
+        )
+        # Text(self.student_frame, height=20, width=60).grid()
+        Button(
+            self.parent_frame,
+            text="הגדר ילד ",
+            bd=3,
+            font=("", 15),
+            padx=5,
+            pady=5,
+            command=self.set_child,
+        ).grid(row=1, column=2)
+
+        Button(
+            self.parent_frame,
+            text="הצע למורה ",
+            pady=5,
+            padx=5,
+            font=("", 15),
+            height=5,
+            width=15,
+            command=self.suggest_to_teacher,
+        ).grid(row=5, column=1)
+        Button(
+            self.parent_frame,
+            text="הפק דוח תלמיד",
+            pady=5,
+            padx=5,
+            font=("", 15),
+            height=5,
+            width=20,
+            command=self.student_report,
+        ).grid(row=6, column=1)
+
+        self.suggest = Frame(self.master, padx=100, pady=100)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(1, self.suggest),
+            image=imgs["img1.jpeg"],
+        ).grid(row=0, column=1)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(2, self.suggest),
+            image=imgs["img2.jpeg"],
+        ).grid(row=0, column=2)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(3, self.suggest),
+            image=imgs["img3.jpeg"],
+        ).grid(row=0, column=3)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(4, self.suggest),
+            image=imgs["img4.jpeg"],
+        ).grid(row=0, column=4)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(5, self.suggest),
+            image=imgs["img5.jpeg"],
+        ).grid(row=1, column=1)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(6, self.suggest),
+            image=imgs["img6.jpeg"],
+        ).grid(row=1, column=2)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(7, self.suggest),
+            image=imgs["img7.jpeg"],
+        ).grid(row=1, column=3)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(8, self.suggest),
+            image=imgs["img8.jpeg"],
+        ).grid(row=1, column=4)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(9, self.suggest),
+            image=imgs["img9.jpeg"],
+        ).grid(row=2, column=1)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(10, self.suggest),
+            image=imgs["img10.jpeg"],
+        ).grid(row=2, column=2)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(11, self.suggest),
+            image=imgs["img11.jpeg"],
+        ).grid(row=2, column=3)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            command=lambda: self.image_button(12, self.suggest),
+            image=imgs["img12.jpeg"],
+        ).grid(row=2, column=4)
+        Button(
+            self.suggest,
+            padx=5,
+            pady=5,
+            font=("", 20),
+            command=self.show_parent_frame,
+            text="חזור למסך המורה ",
+        ).grid(row=0, column=0)
+
+        self.parents_suggestions = Frame(self.master, padx=100, pady=100)
+        Button(
+            self.parents_suggestions,
+            padx=5,
+            pady=5,
+            font=("", 20),
+            command=self.show_teacher_frame,
+            text="חזור למסך המורה ",
+        ).grid(row=10, column=1)
