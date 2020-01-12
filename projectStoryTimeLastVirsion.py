@@ -259,7 +259,46 @@ imgs = {}
             self.images.append(name)
 
 
+    def create_class(self):
+        c = self.users_db.cursor()
+        c.execute("SELECT class FROM users WHERE username=?", (self.username.get(),))
+        classname = c.fetchone()[0]
+        print(classname)
+        if classname:
+            self.classname.set(classname)
+            ms.showerror("טעות", "כבר יש לך כיתה!")
+            return
+        uname = self.username.get()
+        classname = self.classname.get()
+        if classname == "None":
+            ms.showerror("טעות", "את חייבת לבחור שם לכיתה")
+            return
 
+        update_users = "UPDATE users SET class = ? WHERE username = ?"
+        # insert_classes = ('INSERT INTO classes(name, teacher) VALUES (?, ?)')
+        c.execute(update_users, [(classname), (uname)])
+        # c.execute(insert_classes, [(classname), (uname)])
+        self.users_db.commit()
+        ms.showinfo("הצלחה", "הכיתה נוצרה")
+
+    def add_student(self):
+        if not self.classname.get():
+            ms.showerror("טעות", "עדיין לא יצרת כיתה")
+            return
+        c = self.users_db.cursor()
+        find_user = "SELECT * FROM users WHERE username = ? AND role = ?"
+        c.execute(find_user, [(self.student.get()), (STUDENT)])
+        student = c.fetchone()
+        if not student:
+            ms.showerror("Error!", "Student in that name is not found")
+            return
+        # Create New Account
+        update = "UPDATE users SET class = ? WHERE username = ?"
+        c.execute(update, [(self.classname.get()), (self.student.get())])
+        self.users_db.commit()
+        ms.showinfo(
+            "הצלחה",
+            f"התווסף {self.student.get()} לכיתה-  {self.classname.get()}",)
 
 
       
