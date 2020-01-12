@@ -46,6 +46,7 @@ stories.cursor().execute(
 
 # print(conn.cursor().execute('SELECT * FROM users').fetchall())
 
+
 print(
     users.cursor()
     .execute("SELECT username, role, child, class FROM users")
@@ -99,8 +100,7 @@ class main:
         # Create Widgets
         self.widgets()
 
-
-# Login Function
+    # Login Function
     def login(self):
         # Establish Connection
         # with sqlite3.connect('quit.db') as db:
@@ -209,7 +209,6 @@ class main:
         self.head["text"] = "יצירת משתמש"
         self.crf.pack()
 
-
     def show_teacher_frame(self):
         self.parents_suggestions.pack_forget()
         self.logf.pack_forget()
@@ -217,7 +216,6 @@ class main:
         # self.head.pack_forget()
         self.head["text"] = f"ברוכים הבאים למסך המורה {self.username.get()}"
         self.teacher_frame.pack()
-
 
     def show_student_frame(self):
         if self.get_images_for_student() == -1:
@@ -282,7 +280,6 @@ class main:
         if name not in self.images:
             self.images.append(name)
 
-
     def create_class(self):
         c = self.users_db.cursor()
         c.execute("SELECT class FROM users WHERE username=?", (self.username.get(),))
@@ -322,8 +319,8 @@ class main:
         self.users_db.commit()
         ms.showinfo(
             "הצלחה",
-            f"התווסף {self.student.get()} לכיתה-  {self.classname.get()}",)
-
+            f"התווסף {self.student.get()} לכיתה-  {self.classname.get()}",
+        )
 
     def send_story(self):
         if not self.classname.get():
@@ -342,7 +339,7 @@ class main:
         print((c.execute("SELECT username, story FROM stories").fetchall()))
         ms.showinfo("הצלחה", f"הסיפור נשמר")
         self.story.set("")  # clear the story
-     
+
     def get_images_for_student(self):
         users_cursor = self.users_db.cursor()
         images_cursor = self.images_db.cursor()
@@ -365,7 +362,7 @@ class main:
         for img in images.split(" "):
             self.add_image(img)
         print(self.images)
-     
+
     def set_child(self):
         c = self.users_db.cursor()
         find_user = "SELECT * FROM users WHERE username = ?"
@@ -398,8 +395,6 @@ class main:
         self.student.set(child[0])
         if classname:
             self.classname.set(classname[0])
-
-
 
     def view_parent_seuggestions(self):
         self.head["text"] = "ראה את הצעת ההורים לשיעור הבא שלך"
@@ -475,8 +470,8 @@ class main:
 
         report.save(f"{child}_report.docx")
         os.system(f"start {child}_report.docx")
-    
-    
+
+
     # Draw Widgets
     def widgets(self):
         self.head = Label(self.master, text="התחברות", font=("", 35), pady=10)
@@ -873,21 +868,20 @@ class main:
             text="חזור למסך המורה ",
         ).grid(row=10, column=1)
 
-        
-    # a function to return an ImageTk object from an image name
-    def name_to_image(fname: str):
-        return ImageTk.PhotoImage(Image.open(fname))
+
+# a function to return an ImageTk object from an image name
+def name_to_image(fname: str):
+    return ImageTk.PhotoImage(Image.open(fname))
 
 
-    # create window and application object
-    root = Tk()
+# create window and application object
+root = Tk()
 
-    # setting up the images dictionary to be displayed later
-    for i in range(1, 13):
-        imgs[f"img{i}.jpeg"] = name_to_image(f"img{i}.jpeg")
+# setting up the images dictionary to be displayed later
+for i in range(1, 13):
+    imgs[f"img{i}.jpeg"] = name_to_image(f"img{i}.jpeg")
 
 
-    # root.title("Login Form")
-    main(root)
-    root.mainloop()
-
+# root.title("Login Form")
+main(root)
+root.mainloop()
