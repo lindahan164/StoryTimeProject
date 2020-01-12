@@ -193,5 +193,23 @@ imgs = {}
         # self.head.pack_forget()
         self.head["text"] = f"ברוכים הבאים למסך המורה {self.username.get()}"
         self.teacher_frame.pack()
+
+
+    def show_student_frame(self):
+        if self.get_images_for_student() == -1:
+            self.logf.pack()
+            return
+        self.logf.pack_forget()
+        self.student_frame.pack()
+        self.head["text"] = "הינה הקלפים לשיעורינו. "
+        for i in range(4):
+            Label(self.student_frame, image=imgs[self.images[i]]).grid(row=0, column=i)
+
+
+
+
+
+      
+
      
 
