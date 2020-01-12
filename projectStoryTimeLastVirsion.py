@@ -848,3 +848,22 @@ imgs = {}
             command=self.show_teacher_frame,
             text="חזור למסך המורה ",
         ).grid(row=10, column=1)
+
+        
+    # a function to return an ImageTk object from an image name
+    def name_to_image(fname: str):
+        return ImageTk.PhotoImage(Image.open(fname))
+
+
+    # create window and application object
+    root = Tk()
+
+    # setting up the images dictionary to be displayed later
+    for i in range(1, 13):
+        imgs[f"img{i}.jpeg"] = name_to_image(f"img{i}.jpeg")
+
+
+    # root.title("Login Form")
+    main(root)
+    root.mainloop()
+
