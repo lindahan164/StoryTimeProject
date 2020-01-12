@@ -221,6 +221,22 @@ imgs = {}
         self.parent_frame.pack_forget()
         self.suggest.pack()
 
+    def start_lesson(self):
+        self.logf.pack_forget()
+        self.teacher_frame.pack_forget()
+        self.lesson.pack()
+        self.head["text"] = "בחר קלפים לשיעור "
+        img = None
+        i = 0
+        for child in self.lesson.children.values():
+            if not isinstance(child, Button):
+                continue
+            i += 1
+            if i > 12:
+                return
+            img = imgs[f"img{i}.jpeg"]
+            child.configure(image=img)
+            # child.image = img
 
 
 
