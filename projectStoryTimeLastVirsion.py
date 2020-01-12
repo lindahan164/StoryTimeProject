@@ -301,7 +301,24 @@ imgs = {}
             f"התווסף {self.student.get()} לכיתה-  {self.classname.get()}",)
 
 
-      
+    def send_story(self):
+        if not self.classname.get():
+            ms.showerror("תקלה", "אתה לא בכיתה עדיין")
+            return
+        c = self.stories_db.cursor()
+        find_story = "SELECT story FROM stories WHERE username = ?"
+        c.execute(find_story, [(self.username.get()),])
+        result, = c.fetchone()
+        stories = str(result) + self.story.get() + "|"
+        if result is None:
+            stories = self.story.get() + "|"
+        update = "UPDATE stories SET story = ? WHERE username = ?"
+        c.execute(update, [(stories), (self.username.get())])
+        self.stories_db.commit()
+        print((c.execute("SELECT username, story FROM stories").fetchall()))
+        ms.showinfo("הצלחה", f"הסיפור נשמר")
+        self.story.set("")  # clear the story
+     
 
      
 
