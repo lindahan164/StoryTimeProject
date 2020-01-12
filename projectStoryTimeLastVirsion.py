@@ -374,3 +374,52 @@ imgs = {}
         self.student.set(child[0])
         if classname:
             self.classname.set(classname[0])
+
+
+
+    def view_parent_seuggestions(self):
+        self.head["text"] = "ראה את הצעת ההורים לשיעור הבא שלך"
+        self.teacher_frame.pack_forget()
+        self.parents_suggestions.pack()
+        c = self.users_db.cursor()
+        find_parents = (
+            "SELECT username FROM users WHERE class=? AND role=?"
+        )
+        parents = c.execute(
+            find_parents, [(self.classname.get()), ("parent")]
+        ).fetchall()
+        print(parents)
+        for parent in parents:
+            if parent[0] not in self.parents:
+                self.parents.append(parent[0])
+            index = parents.index(parent)
+            Button(
+                self.parents_suggestions,
+                text=parent[0],
+                height=10,
+                width=20,
+                command=lambda i=index: self.show_suggestion(i),
+            ).grid(row=index, column=index // 4)
+
+    def show_suggestion(self, index):
+        self.head["text"] = f" ההצעה של - {self.parents[index]} "
+        self.suggest.pack_forget()
+        c = self.images_db.cursor()
+        parent = self.parents[index]
+        find_suggestions = "SELECT images FROM images WHERE username=?"
+        suggestions = c.execute(find_suggestions, (parent,)).fetchone()
+        if not suggestions:
+            ms.showerror(
+                "תקלה", "ההורה הזה לא הגדיר ילד,או שלילד אין כיתה"
+            )
+            return
+        # suggestions = list(suggestions)
+        images = "".join(suggestions).split(" ")
+        print(str(index) + " : " + str(images))
+        # print(images)
+        for img in images:
+            # print(img)
+            Label(self.parents_suggestions, image=imgs[str(img)]).grid(
+                row=0, column=images.index(img)
+            )
+
