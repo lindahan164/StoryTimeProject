@@ -855,7 +855,7 @@ class main:
             pady=5,
             font=("", 20),
             command=self.show_parent_frame,
-            text="חזור למסך המורה ",
+            text="חזור למסך ההורה ",
         ).grid(row=0, column=0)
 
         self.parents_suggestions = Frame(self.master, padx=100, pady=100)
